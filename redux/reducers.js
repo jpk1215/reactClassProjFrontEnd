@@ -4,7 +4,11 @@ import {
 
 import { combineReducers } from 'redux';
 
-function artists(state = todoInitialState, action) {
+const initialState = {
+    inputValue: ''
+};
+
+function artists(state = initialState, action) {
     switch (action.type) {
         case INPUT_TYPING:
             return Object.assign({}, state, {

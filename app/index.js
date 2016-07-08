@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
 import configureStore from '../redux/store.js';
-import { inputTyping } from './actions.js'
+import { inputTyping } from '../redux/actions.js'
 import axios from 'axios';
 
 const store = configureStore();
@@ -37,11 +37,10 @@ function mapStateToProps(state) {
 	}
 }
 // functional programming: higher order components (functions)
-let App = connect(mapStateToProps)(App);
+let ReduxApp = connect(mapStateToProps)(App);
 
 render(
 	<Provider store={store}>
-		<App />
+		<ReduxApp />
 	</Provider>, document.getElementById('app'));
 
-require('../redux/createDevToolWindow.js')(store);
