@@ -1,32 +1,14 @@
 import {
-    SAVE_BEGIN,
-    SAVE_ERROR,
-    SAVE_SUCCESS
+    INPUT_TYPING
 } from './actions.js';
 
 import { combineReducers } from 'redux';
 
-function todos(state = todoInitialState, action) {
+function artists(state = todoInitialState, action) {
     switch (action.type) {
-        case SAVE_SUCCESS:
+        case INPUT_TYPING:
             return Object.assign({}, state, {
-                inputValue: '',
-                todos: [...state.todos,action.payload.todo],
-                saveError: null,
-                startSaving: false,
-                pendingSave: null
-            });
-        case SAVE_BEGIN:
-            return Object.assign({}, state, {
-                startSaving: true,
-                saveError: null,
-                pendingSave: action.payload.todo
-            });
-        case SAVE_ERROR:
-            return Object.assign({}, state, {
-                startsaving: false,
-                saveError: action.payload.error,
-                pendingSave: null
+                inputValue: action.payload.inputValue
             });
         default:
             return state
@@ -34,7 +16,7 @@ function todos(state = todoInitialState, action) {
 }
 
 const rootReducer = combineReducers({
-    todos
+    artists
 });
 
 export default rootReducer

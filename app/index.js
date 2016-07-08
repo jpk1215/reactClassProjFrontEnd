@@ -2,17 +2,30 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
 import configureStore from '../redux/store.js';
-import { handleSave } from './actions.js'
+import { inputTyping } from './actions.js'
 import axios from 'axios';
+
+const store = configureStore();
+
+const styles = {
+	title: {fontSize: '30px', color:'blue'}
+};
 
 class App extends React.Component {
 	constructor(props) {
 		super(props);
 	}
 
+	handleInput = (e) => {
+		this.props.dispatch(inputTyping(e.target.value))
+	};
+
 	render() {
 		return (
-			<p>blah</p>
+			<div>
+				<h1 style={styles.title}>Hello World</h1>
+				<input onChange={this.handleInput} value={this.props.artists.inputValue}/>
+			</div>
 		);
 	}
 }
@@ -20,7 +33,7 @@ class App extends React.Component {
 // state is Redux state / return props for our component
 function mapStateToProps(state) {
 	return {
-		todos: state.todos
+		artists: state.artists
 	}
 }
 // functional programming: higher order components (functions)

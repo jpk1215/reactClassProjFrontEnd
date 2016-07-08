@@ -1,37 +1,28 @@
-export const SAVE_SUCCESS = 'SAVE_SUCCESS';
-export const SAVE_ERROR = 'SAVE_ERROR';
-export const SAVE_BEGIN = 'SAVE_BEGIN';
+export const INPUT_TYPING = 'INPUT_TYPING';
+// export const GET_ARTISTS = 'GET_ARTISTS';
 
-function saveSuccess(todo) {
+export function inputTyping(inputValue) {
     return {
-        type: SAVE_SUCCESS,
-        payload: { todo }
+        type: INPUT_TYPING,
+        payload: { inputValue }
     }
 }
 
-function saveError(error) {
-    return {
-        type: SAVE_ERROR,
-        payload: { error }
-    }
-}
+// function getLikeArtists(artist) {
+//     return {
+//         type: GET_ARTISTS,
+//         payload: { artist }
+//     }
+// }
 
-function saveBegin(todo) {
-    return {
-        type: SAVE_BEGIN,
-        payload: { todo }
-    }
-}
-
-export function handleSave(todo) {
-    return dispatch => {
-        dispatch(saveBegin(todo));
-        saveToBackEnd(response => {
-            if(response.success) {
-                dispatch(saveSuccess(todo));
-            } else {
-                dispatch(saveError(response.error))
-            }
-        })
-    }
-}
+// export function handleSearch(todo) {
+//     return dispatch => {
+//         saveToBackEnd(response => {
+//             if(response.success) {
+//                 dispatch(saveSuccess(todo));
+//             } else {
+//                 dispatch(saveError(response.error))
+//             }
+//         })
+//     }
+// }
