@@ -42,5 +42,6 @@ let ReduxApp = connect(mapStateToProps)(App);
 render(
 	<Provider store={store}>
 		<ReduxApp />
-	</Provider>, document.getElementById('app'));
+	</Provider>, document.getElementById('app')
+);
 
