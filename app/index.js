@@ -2,8 +2,10 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
 import configureStore from '../redux/store.js';
-import { inputTyping } from '../redux/actions.js'
-import axios from 'axios';
+import {
+	inputTyping,
+	findArtists
+} from '../redux/actions.js'
 
 const store = configureStore();
 
@@ -17,14 +19,28 @@ class App extends React.Component {
 	}
 
 	handleInput = (e) => {
-		this.props.dispatch(inputTyping(e.target.value))
+		this.props.dispatch(inputTyping(e.target.value));
+	};
+
+	handleSearch = () => {
+		this.props.dispatch(findArtists(this.props.artists.inputValue));
 	};
 
 	render() {
+		const artistImages = this.props.artists.likeArtists
+			.filter(artist => !!artist.images.length)
+			.map((artist,index) => {
+			return <img key={index} src={artist.images[0].url} />;
+		});
 		return (
 			<div>
 				<h1 style={styles.title}>Hello World</h1>
 				<input onChange={this.handleInput} value={this.props.artists.inputValue}/>
+				<button onClick={this.handleSearch}>Find Artist</button>
+				<div>
+					{this.props.artists.error}
+					{this.props.artists.loading ? 'Loading...' : artistImages}
+				</div>
 			</div>
 		);
 	}
