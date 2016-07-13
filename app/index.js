@@ -30,7 +30,12 @@ class App extends React.Component {
 		const artistImages = this.props.artists.likeArtists
 			.filter(artist => !!artist.images.length)
 			.map((artist,index) => {
-			return <img key={index} src={artist.images[0].url} />;
+			return (
+				<div key={index}>
+					<img src={artist.images[0].url} />
+					<pre>{JSON.stringify(artist, null, 2)}</pre>
+				</div>
+			)
 		});
 		return (
 			<div>

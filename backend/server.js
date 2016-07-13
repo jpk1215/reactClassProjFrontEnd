@@ -5,7 +5,7 @@ var app = express();
 var morgan = require('morgan');
 
 
-app.use(morgan('combined'))
+app.use(morgan('combined'));
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -16,7 +16,7 @@ app.use(function(req, res, next) {
 
 app.get('/twitter', function(req,res){
     axios.request({
-        url: 'https://api.twitter.com/1.1/search/tweets.json?q='+ req.params.name,
+        url: 'https://api.twitter.com/1.1/search/tweets.json?q='+ req.query.name,
         method: 'get',
         headers:{
             'Authorization': 'Bearer ' + env.TWITTER_BEARER_TOKEN,
