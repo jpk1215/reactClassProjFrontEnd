@@ -2,5 +2,5 @@ node_modules
 .idea
 *.iml
 build
-.env
+env.js
 npm-debug.log

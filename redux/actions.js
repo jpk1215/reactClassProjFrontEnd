@@ -5,7 +5,6 @@ export const GET_LIKE_ARTISTS_START = 'GET_LIKE_ARTISTS_START';
 export const GET_LIKE_ARTISTS_SUCCESS = 'GET_LIKE_ARTISTS_SUCCESS';
 export const GET_LIKE_ARTISTS_ERROR = 'GET_LIKE_ARTISTS_ERROR';
 
-
 export function inputTyping(inputValue) {
     return {
         type: INPUT_TYPING,
@@ -39,6 +38,7 @@ export function findArtists(artist) {
         dispatch(getLikeArtistsStart());
         findArtistId(artist)
             .then(findRelatedArtists)
+            .then(mapTweetsToArtists)
             .then(artists => dispatch(getLikeArtistsSuccess(artists)))
             .catch(err => dispatch(getLikeArtistsError(err)))
     }
@@ -59,3 +59,12 @@ function findRelatedArtists(artistId) {
     return axios.get(`https://api.spotify.com/v1/artists/${artistId}/related-artists`)
         .then(response => response.data.artists)
 }
+
+function mapTweetsToArtists(artists) {
+    return Promise
+        .all(artists.map(artist => {
+            return axios.get(`http://localhost:3000/twitter?name=${encodeURIComponent(artist.name)}`)
+                .then(data => Object.assign({}, artist, data))
+        }))
+}
+
