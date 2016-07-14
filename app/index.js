@@ -7,15 +7,37 @@ import {
 	findArtists
 } from '../redux/actions.js'
 
+
 const store = configureStore();
 
 const styles = {
-	title: {fontSize: '30px', color:'blue'},
-	image: {height: '100px', width: '100px'},
-	artistTile: {display: 'block', padding:'10px', margin:'10px'}
+	title: {fontSize: '30px', color:'#60a0df', textAlign:'center'},
+	tile:{padding: '5px', flex: '1 1 auto'},
+	image: {maxHeight: '300px', maxWidth: '100%', margin: '0 auto'},
+	container: {display: 'block', padding:'10px', margin:'10px'},
+	centeredContainer: {display: 'block', padding:'10px', margin:'0 auto', width: '300px' }
 };
 
-// class Header = ({title}) 
+ const Header = ({title}) =>
+		<div style={styles.centeredContainer}>
+			<h1 style={styles.title}> {title} </h1>
+		</div>
+
+class SearchArtist extends React.Component {
+	constructor(props) {
+		super(props)
+	}
+	
+	render() {
+		const { handleInput, handleClick, text} = this.props;
+		return (
+			<div style={styles.centeredContainer} >
+				<input onChange={handleInput} value={text}/>
+				<button onClick={handleClick}>Find Artist</button>
+			</div>
+		)
+	}
+}
 
 class ArtistTile extends React.Component {
 	constructor(props) {
@@ -23,25 +45,20 @@ class ArtistTile extends React.Component {
 	}
 	render(){
 		const {artist, index} = this.props;
-		console.log(artist);
-		const tweets = artist.data.statuses.map((tweet, index) =>
+		const tweets = artist.data.statuses.map((tweet, index1) =>
 			<ul>
-				<li id={index}>{tweet.text}</li>
+				<li id={index} key={index1}>{tweet.text}</li>
 			</ul>
-		)
+		);
 		return (
-			<div key={index} className={styles.artistTile}>
-				<img src={artist.images[0].url} className={styles.image} />
+			<div key={index} style={styles.tile}>
+				<h2>{artist.name}</h2>
+				<img src={artist.images[0].url} style={styles.image} />
 				{tweets}
 			</div>
 		)
 	};
 }
-const TweetTile =({tweet}) =>
-	<div>
-
-	</div>
-
 
 class App extends React.Component {
 	constructor(props) {
@@ -61,16 +78,14 @@ class App extends React.Component {
 			.filter(artist => !!artist.images.length)
 			.map((artist,index) => {
 			return (
-				<ArtistTile artist={artist} index={index} />
+				<ArtistTile artist={artist} index={index} key={index} />
 			)
 		});
 		return (
 			<div>
-				<Header title="Artist and Tweets" />
-				<h1 style={styles.title}>Hello World</h1>
-				<input onChange={this.handleInput} value={this.props.artists.inputValue}/>
-				<button onClick={this.handleSearch}>Find Artist</button>
-				<div>
+				<Header title="Artists and Tweets" />
+				<SearchArtist handleInput={this.handleInput} text={this.props.artists.inputValue} handleClick={this.handleSearch} />
+				<div style={{display: 'flex', flexDirection:'row', flexWrap: 'wrap'}}>
 					{this.props.artists.error}
 					{this.props.artists.loading ? 'Loading...' : artistImages}
 				</div>

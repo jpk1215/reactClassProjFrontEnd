@@ -3,7 +3,7 @@ var path = require('path');
 module.exports = {
 	entry: [
 		'webpack/hot/dev-server',
-		'webpack-dev-server/client?http://localhost:8080',	
+		'webpack-dev-server/client?http://localhost:3001',
 		path.resolve(__dirname, 'app/index.js')
 	],
 	output: {
@@ -17,5 +17,8 @@ module.exports = {
 		{
 			test: /\.css$/, loader: 'style!css?modules'
 		}]
+	},
+	devServer: {
+		port: 3001
 	}
 };
