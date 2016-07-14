@@ -16,7 +16,7 @@ app.use(function(req, res, next) {
 
 app.get('/twitter', function(req,res){
     axios.request({
-        url: 'https://api.twitter.com/1.1/search/tweets.json?q='+ req.query.name,
+        url: 'https://api.twitter.com/1.1/search/tweets.json?q='+ req.query.name + '&lang=en',
         method: 'get',
         headers:{
             'Authorization': 'Bearer ' + env.TWITTER_BEARER_TOKEN,
