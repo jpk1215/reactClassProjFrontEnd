@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
 import configureStore from '../redux/store.js';
+import Autolinker from 'autolinker'
 import {
 	inputTyping,
 	findArtists
@@ -12,28 +13,31 @@ const store = configureStore();
 
 const styles = {
 	title: {fontSize: '30px', color:'#60a0df', textAlign:'center'},
-	tile:{padding: '5px', flex: '1 1 auto'},
-	image: {maxHeight: '300px', maxWidth: '100%', margin: '0 auto'},
+	tile:{width:'33.333333%', padding: '5px', margin: '0 auto'},
+	image: {maxHeight: '300px', maxWidth: '100%', margin: '0 auto', display: 'block'},
 	container: {display: 'block', padding:'10px', margin:'10px'},
-	centeredContainer: {display: 'block', padding:'10px', margin:'0 auto', width: '300px' }
+	centeredContainer: {display: 'block', padding:'10px', margin:'0 auto', width: '30%' },
+	input: {display:'inline', float:'left', width: '60%', marginRight: '5%'},
+	btn: {width: '35%'},
+	tweetBox: {background:'#eee', margin:'5px 5px', borderRadius: '5px', padding: '10px'}
 };
 
  const Header = ({title}) =>
 		<div style={styles.centeredContainer}>
 			<h1 style={styles.title}> {title} </h1>
-		</div>
+		</div>;
 
 class SearchArtist extends React.Component {
 	constructor(props) {
 		super(props)
 	}
-	
+
 	render() {
 		const { handleInput, handleClick, text} = this.props;
 		return (
 			<div style={styles.centeredContainer} >
-				<input onChange={handleInput} value={text}/>
-				<button onClick={handleClick}>Find Artist</button>
+				<input onChange={handleInput} value={text} className="form-control" style={styles.input} />
+				<button onClick={handleClick} className={"btn btn-primary"} style={styles.btn}>Find Artist</button>
 			</div>
 		)
 	}
@@ -43,16 +47,19 @@ class ArtistTile extends React.Component {
 	constructor(props) {
 		super(props);
 	}
+
+	goTwitter = (userName) => window.open(`https://twitter.com/${userName}`,'_blank');
+
 	render(){
 		const {artist, index} = this.props;
 		const tweets = artist.data.statuses.map((tweet, index1) =>
-			<ul>
-				<li id={index} key={index1}>{tweet.text}</li>
-			</ul>
+			<div style={styles.tweetBox}>
+				<span><i onClick={() => this.goTwitter(tweet.user.screen_name)} className="fa fa-twitter" style={{color:'#1da1f2', cursor:'pointer', fontSize: '1.5em'}}></i><p id={index} key={index1} style={{display:'inline', marginLeft: '3px'}} dangerouslySetInnerHTML={{__html: Autolinker.link(tweet.text)}}></p></span>
+			</div>
 		);
 		return (
 			<div key={index} style={styles.tile}>
-				<h2>{artist.name}</h2>
+				<h2 style={{textAlign:'center'}}>{artist.name}</h2>
 				<img src={artist.images[0].url} style={styles.image} />
 				{tweets}
 			</div>
@@ -83,9 +90,9 @@ class App extends React.Component {
 		});
 		return (
 			<div>
-				<Header title="Artists and Tweets" />
+				<Header title="" />
 				<SearchArtist handleInput={this.handleInput} text={this.props.artists.inputValue} handleClick={this.handleSearch} />
-				<div style={{display: 'flex', flexDirection:'row', flexWrap: 'wrap'}}>
+				<div style={{display: 'flex', flexDirection:'row', flexWrap: 'wrap', padding: '100px'}}>
 					{this.props.artists.error}
 					{this.props.artists.loading ? 'Loading...' : artistImages}
 				</div>
