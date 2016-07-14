@@ -63,7 +63,7 @@ function findRelatedArtists(artistId) {
 function mapTweetsToArtists(artists) {
     return Promise
         .all(artists.map(artist => {
-            return axios.get(`http://localhost:3000/twitter?name=${encodeURIComponent(artist.name)}`)
+            return axios.get(`/twitter?name=${encodeURIComponent(artist.name)}`)
                 .then(data => Object.assign({}, artist, data))
         }))
 }
