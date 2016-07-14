@@ -90,7 +90,7 @@ class App extends React.Component {
 		});
 		return (
 			<div>
-				<Header title="" />
+				<Header title="Artists and Tweets" />
 				<SearchArtist handleInput={this.handleInput} text={this.props.artists.inputValue} handleClick={this.handleSearch} />
 				<div style={{display: 'flex', flexDirection:'row', flexWrap: 'wrap', padding: '100px'}}>
 					{this.props.artists.error}
