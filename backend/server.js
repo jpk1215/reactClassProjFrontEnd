@@ -23,6 +23,7 @@ app.get('/twitter', function(req,res){
             'Access-Control-Allow-Origin': '*'
         }
     }).then(function(response) { res.send(response.data) })
+        .catch(err => console.log(err))
 });
 
 app.listen('3000', function() {

@@ -13,6 +13,11 @@ const styles = {
 	title: {fontSize: '30px', color:'blue'}
 };
 
+const ArtistTile = ({ artist }) =>
+	<div>
+		
+	</div>;
+
 class App extends React.Component {
 	constructor(props) {
 		super(props);
